@@ -1,0 +1,13 @@
+{
+  "name": "pingpong-manager",
+  "version": "2.28.0",
+  "private": true,
+  "description": "PingPong Manager - PWA offline",
+  "scripts": {
+    "test": "node run-tests.js",
+    "test:smoke": "node tests/smoke/smoke-edge.js"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.62.1"
+  }
+}
