@@ -3,12 +3,17 @@
 // ==========================================
 
 // Versión actual del sistema
-window.APP_VERSION = '2.28';
+window.APP_VERSION = '2.29';
 
 // Botón de versión del header sincronizado con APP_VERSION
 function syncVersionButton() {
     const btn = document.getElementById('version-button');
     if (btn) btn.textContent = '📜 v' + APP_VERSION;
+    // Sincronizar también las versiones hardcoded en changelog y settings
+    const cv = document.getElementById('changelog-current-version');
+    if (cv) cv.textContent = APP_VERSION;
+    const sv = document.getElementById('settings-version');
+    if (sv) sv.textContent = APP_VERSION;
 }
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', syncVersionButton);
@@ -18,6 +23,26 @@ if (document.readyState === 'loading') {
 
 // Historial de cambios (más reciente primero)
 const CHANGELOG = [
+    {
+        version: '2.29',
+        date: '2026-08-17',
+        title: 'Pulido de UX/UI: accesibilidad, animaciones y bugs',
+        changes: [
+            '🐛 Fix: el toast ahora desaparece correctamente (animación fadeOut con forwards) y no reaparece.',
+            '🐛 Fix: los toasts ahora se ven siempre por encima de los overlays de Scoreboard/Mesas/TV (z-index corregido).',
+            '🐛 Fix: la versión del sistema ahora viene de un solo lugar (APP_VERSION); eliminadas las versiones hardcoded (v2.7, v2.4) del HTML.',
+            '✨ Empty states mejorados: los estados vacíos ahora muestran un ícono, texto y estilo consistente (clase .empty-state) en lugar de texto en itálica sin formato.',
+            '✨ Modal con transición: el modal ahora aparece y desaparece con fade + slide suave (opacity + translateY) en lugar de un flash instantáneo.',
+            '♿ prefers-reduced-motion: todas las animaciones se desactivan automáticamente para usuarios con sensibilidad al movimiento (WCAG 2.3.3).',
+            '♿ Focus ring system: todos los botones, tabs, toggles y inputs muestran un ring de foco azul con :focus-visible para navegación por teclado.',
+            '♿ Tooltips accesibles: los tooltips ahora aparecen también con focus-visible, no solo con hover.',
+            '♿ Toast con aria-live implícito: pointer-events: none en el contenedor para no bloquear interacción.',
+            '🎨 Scrollbar theming: las scrollbars ahora se adaptan al tema claro/oscuro con colores consistentes.',
+            '📱 Safe-area insets: la PWA ahora respeta los bordes de notch y safe areas en dispositivos móviles.',
+            '🎨 Overlays de proyección (Scoreboard/Mesas/TV) ahora tienen z-index inferior al modal para evitar conflictos.',
+            '🧪 Tests actualizados para la nueva transición del modal: 313 tests en total.'
+        ]
+    },
     {
         version: '2.28',
         date: '2026-08-17',

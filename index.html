@@ -17,7 +17,7 @@
         <h1 id="main-header-title">🏓 PingPong Manager 🏓</h1>
         <p id="main-header-subtitle" data-i18n="Gestión completa de fixtures, estadísticas y llaves eliminatorias">Gestión completa de fixtures, estadísticas y llaves eliminatorias</p>
         <div class="header-actions">
-            <button class="btn btn-primary" id="version-button" onclick="showTab('changelog')" title="Ver bitácora de cambios" data-i18n-title="Ver bitácora de cambios" style="margin-left: 8px;">📜 v2.28</button>
+            <button class="btn btn-primary" id="version-button" onclick="showTab('changelog')" title="Ver bitácora de cambios" data-i18n-title="Ver bitácora de cambios" style="margin-left: 8px;">📜 v2.29</button>
             <button class="btn btn-info" onclick="showSystemGuide()" title="Guía del sistema: funciones y flujo del administrador" data-i18n-title="Guía del sistema: funciones y flujo del administrador" data-i18n="🧭 Guía" style="margin-left: 8px;">🧭 Guía</button>
         </div>
     </div>
@@ -77,7 +77,7 @@
 
         <div class="form-section">
             <div id="logs-output" style="max-height: 600px; overflow-y: auto;">
-                <p style="color: #999; font-style: italic;" data-i18n="No hay registros aún.">No hay registros aún.</p>
+                <div class="empty-state"><span class="empty-state-icon">📋</span><p class="empty-state-text" data-i18n="No hay registros aún.">No hay registros aún.</p></div>
             </div>
         </div>
     </div>
@@ -88,12 +88,12 @@
             <h3 data-i18n="📜 Bitácora de Cambios">📜 Bitácora de Cambios</h3>
             <div class="info-box" style="margin-bottom: 15px;">
                 <p style="margin: 0; font-size: 13px;">
-                    <strong>🎯 Versión actual: <span id="changelog-current-version">2.7</span></strong><br>
+                    <strong>🎯 Versión actual: <span id="changelog-current-version"></span></strong><br>
                     Resumen de los cambios recientes del sistema por versión.
                 </p>
             </div>
             <div id="changelog-output">
-                <p style="color: var(--text-muted); font-style: italic;">Cargando bitácora...</p>
+                <div class="empty-state"><span class="empty-state-icon">📜</span><p class="empty-state-text">Cargando bitácora...</p></div>
             </div>
         </div>
     </div>
@@ -125,7 +125,7 @@
 
         <div class="form-section">
             <h3 data-i18n="📌 Resumen del Torneo">📌 Resumen del Torneo</h3>
-            <div id="tournament-summary"><p style="color: var(--text-muted); font-style: italic;">No hay fixtures generados aún.</p></div>
+            <div id="tournament-summary"><div class="empty-state"><span class="empty-state-icon">📊</span><p class="empty-state-text">No hay fixtures generados aún.</p></div></div>
         </div>
 
         <div class="form-section">
@@ -136,7 +136,7 @@
                 </p>
             </div>
             <div id="live-scores-container">
-                <p style="color: var(--text-muted); font-style: italic;">Sin partidos en curso.</p>
+                <div class="empty-state"><span class="empty-state-icon">🏓</span><p class="empty-state-text">Sin partidos en curso.</p></div>
             </div>
         </div>
 
@@ -163,12 +163,12 @@
 
         <div class="form-section">
             <h3 data-i18n="🥇 Podios Provisionales">🥇 Podios Provisionales</h3>
-            <div id="dashboard-podiums"><p style="color: var(--text-muted); font-style: italic;">Sin partidos completados aún.</p></div>
+            <div id="dashboard-podiums"><div class="empty-state"><span class="empty-state-icon">🥇</span><p class="empty-state-text">Sin partidos completados aún.</p></div></div>
         </div>
 
         <div class="form-section">
             <h3 data-i18n="📊 Progreso del Torneo">📊 Progreso del Torneo</h3>
-            <div id="dashboard-progress"><p style="color: var(--text-muted); font-style: italic;">Sin fixtures generados aún.</p></div>
+            <div id="dashboard-progress"><div class="empty-state"><span class="empty-state-icon">📈</span><p class="empty-state-text">Sin fixtures generados aún.</p></div></div>
         </div>
 
         <div class="form-section">
@@ -743,7 +743,7 @@
             <button class="btn btn-success" onclick="saveTournamentTemplate()" data-i18n="💾 Guardar Plantilla">💾 Guardar Plantilla</button>
         </div>
         <div id="templates-list" style="display: flex; flex-direction: column; gap: 8px;">
-            <p style="color: var(--text-muted); font-style: italic;" data-i18n="No hay plantillas guardadas aún.">No hay plantillas guardadas aún.</p>
+            <div class="empty-state"><span class="empty-state-icon">📝</span><p class="empty-state-text" data-i18n="No hay plantillas guardadas aún.">No hay plantillas guardadas aún.</p></div>
         </div>
     </div>
 
@@ -792,7 +792,7 @@
             <button class="btn btn-success" onclick="saveTournamentArchive(document.getElementById('archive-name').value)" data-i18n="💾 Guardar Torneo en el Archivo">💾 Guardar Torneo en el Archivo</button>
         </div>
         <div id="archives-list" style="display: flex; flex-direction: column; gap: 8px;">
-            <p style="color: var(--text-muted); font-style: italic;" data-i18n="No hay torneos archivados aún.">No hay torneos archivados aún.</p>
+            <div class="empty-state"><span class="empty-state-icon">🗄️</span><p class="empty-state-text" data-i18n="No hay torneos archivados aún.">No hay torneos archivados aún.</p></div>
         </div>
     </div>
 
@@ -810,7 +810,7 @@
         <h3 data-i18n="📋 Bitácora de Cambios">📋 Bitácora de Cambios</h3>
         <div class="info-box" style="margin-bottom: 15px;">
             <p style="margin: 0; font-size: 13px;">
-                <strong>🎯 <span data-i18n="Versión actual:">Versión actual:</span> 2.4</strong><br>
+                <strong>🎯 <span data-i18n="Versión actual:">Versión actual:</span> <span id="settings-version"></span></strong><br>
                 <span data-i18n="Consultá un resumen de los cambios recientes del sistema.">Consultá un resumen de los cambios recientes del sistema.</span>
             </p>
         </div>

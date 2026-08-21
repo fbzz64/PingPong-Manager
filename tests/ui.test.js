@@ -91,6 +91,8 @@ suite('UI (ui.js)', () => {
         assertEqual(els['modal-overlay'].style.display, 'flex');
         els['modal-confirm'].onclick();
         assertEqual(confirmed, 1, 'ejecuta onConfirm');
+        // Flushear el setTimeout del closeModal
+        timeouts[timeouts.length - 1]();
         assertEqual(els['modal-overlay'].style.display, 'none', 'closeModal tras confirmar');
     });
 
@@ -103,6 +105,8 @@ suite('UI (ui.js)', () => {
         els['modal-overlay'].style.display = 'flex';
         els['modal-confirm'].style.display = 'none';
         S.closeModal();
+        // Flushear el setTimeout del closeModal
+        timeouts[timeouts.length - 1]();
         assertEqual(els['modal-overlay'].style.display, 'none');
         assertEqual(els['modal-confirm'].style.display, 'inline-flex');
     });

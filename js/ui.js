@@ -53,12 +53,19 @@ window.showModal = function(title, content, onConfirm, confirmLabel = t('Confirm
     }
 
     overlay.style.display = 'flex';
+    // Trigger reflow then add visible class for transition
+    void overlay.offsetHeight;
+    overlay.classList.add('visible');
 };
 
 window.closeModal = function() {
     const modal = document.getElementById('modal-overlay');
     const confirmBtn = document.getElementById('modal-confirm');
-    modal.style.display = 'none';
+    modal.classList.remove('visible');
+    // Wait for transition then hide
+    setTimeout(function() {
+        modal.style.display = 'none';
+    }, 250);
     // Restaurar visibilidad del botón confirmar
     confirmBtn.style.display = 'inline-flex';
     // Quitar el modo pantalla completa si estaba activo
