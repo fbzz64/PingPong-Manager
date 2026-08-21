@@ -60,6 +60,9 @@ function initializeSystem() {
     // Cargar categorías personalizadas
     loadCustomCategories();
 
+    // Inicializar chip picker de categorías (después de cargar las opciones)
+    if (typeof initChipPicker === 'function') initChipPicker('new-player-categories');
+
     // Planificación: categorías, plantillas, límites y lista de espera
     if (typeof renderCategoriesManager === 'function') renderCategoriesManager();
     if (typeof renderTemplateList === 'function') renderTemplateList();

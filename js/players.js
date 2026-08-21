@@ -115,6 +115,8 @@ window.onPlayerBirthdateChange = function() {
         const opt = Array.from(sel.options).find(o => o.value === cat);
         if (opt) opt.selected = true;
     });
+    // Re-renderizar chip picker si existe
+    if (sel._chipRender) sel._chipRender();
 };
 
 // ==========================================
@@ -462,6 +464,9 @@ window.forceAddNewPlayer = function(name, club, categories, ranking, members, fe
     document.getElementById('new-player-name').value = '';
     document.getElementById('new-player-club').value = '';
     document.getElementById('new-player-categories').selectedIndex = -1;
+    // Re-renderizar chip picker si existe
+    var catSel = document.getElementById('new-player-categories');
+    if (catSel && catSel._chipRender) catSel._chipRender();
     const rankingInput = document.getElementById('new-player-ranking');
     if (rankingInput) rankingInput.value = '';
     const birthInput = document.getElementById('new-player-birthdate');

@@ -186,6 +186,55 @@ window.toggleShortcuts = function() {
     panel.classList.toggle('show');
 };
 
+// ==========================================
+// CHIP PICKER (reemplaza <select multiple>)
+// ==========================================
+/**
+ * Inicializa un chip picker sobre un <select multiple> existente.
+ * El select se oculta y se renderizan chips clickeables.
+ * El select se mantiene sincronizado (selectedOptions) para
+ * que el código existente que lee el select no necesite cambios.
+ */
+window.initChipPicker = function(selectId, containerId) {
+    const sel = document.getElementById(selectId);
+    const container = document.getElementById(containerId || selectId + '-chips');
+    if (!sel || !container) return;
+
+    // Ocultar el select real
+    sel.style.display = 'none';
+
+    function render() {
+        container.innerHTML = '';
+        Array.from(sel.options).forEach(function(opt) {
+            var chip = document.createElement('span');
+            chip.className = 'chip' + (opt.selected ? ' selected' : '');
+            chip.textContent = opt.value;
+            chip.setAttribute('role', 'checkbox');
+            chip.setAttribute('aria-checked', opt.selected ? 'true' : 'false');
+            chip.setAttribute('tabindex', '0');
+            chip.addEventListener('click', function() {
+                opt.selected = !opt.selected;
+                render();
+            });
+            chip.addEventListener('keydown', function(e) {
+                if (e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault();
+                    opt.selected = !opt.selected;
+                    render();
+                }
+            });
+            container.appendChild(chip);
+        });
+    }
+
+    render();
+
+    // Exponer función para re-renderizar cuando cambian las opciones
+    // (p.ej. al cargar categorías personalizadas)
+    sel._chipRender = render;
+    sel._chipContainer = container;
+};
+
 // resetCompleteSystem, confirmResetSystem y executeCompleteReset viven en tournaments.js
 
 // Añadir estilos de animación para shake

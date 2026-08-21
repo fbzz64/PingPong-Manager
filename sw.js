@@ -5,7 +5,7 @@
 // IMPORTANTE: al cambiar cualquier archivo del app, subir la versión
 // de CACHE_NAME para que los clientes descarguen la actualización.
 
-const CACHE_NAME = 'ttm-cache-v60';
+const CACHE_NAME = 'ttm-cache-v61';
 
 const APP_SHELL = [
   './',

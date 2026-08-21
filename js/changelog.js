@@ -3,7 +3,7 @@
 // ==========================================
 
 // Versión actual del sistema
-window.APP_VERSION = '2.29';
+window.APP_VERSION = '2.30';
 
 // Botón de versión del header sincronizado con APP_VERSION
 function syncVersionButton() {
@@ -23,6 +23,19 @@ if (document.readyState === 'loading') {
 
 // Historial de cambios (más reciente primero)
 const CHANGELOG = [
+    {
+        version: '2.30',
+        date: '2026-08-17',
+        title: 'Limpieza de inline styles y chip picker de categorías',
+        changes: [
+            '🧹 Extracción de77 inline styles a clases CSS reutilizables: .form-control, .form-label, .info-text, .grid-2col, .grid-auto, .grid-sponsor, .grid-toolbar, .flex-row, .flex-col, .btn-sm, .sponsor-hint, .shortcut-key.',
+            '📱 Fix de movilidad: los grids 1fr 1fr ahora se apilan en 1 columna por debajo de 768px (antes los inline styles bloqueaban la media query).',
+            '🎯 Chip picker: el selector de categorías de jugadores ahora muestra chips clickeables en lugar de un select multi con Ctrl+click. Funciona en touch y tiene soporte de teclado (Space/Enter).',
+            '♿ Chips con aria-checked y tabindex para accesibilidad.',
+            '🎨 Focus states en form-control con accent color.',
+            '🧪 Tests: 313 tests en total.'
+        ]
+    },
     {
         version: '2.29',
         date: '2026-08-17',
