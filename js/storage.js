@@ -151,6 +151,12 @@ window.redoAction = function() {
 
 // Guardar datos del torneo en localStorage con manejo de errores
 window.saveTournamentData = function() {
+    // La autorizacion definitiva se aplica en Firebase Rules. Esta guarda
+    // adicional evita que un espectador altere accidentalmente su copia local
+    // y restaura de inmediato el ultimo estado recibido del anfitrion.
+    if (typeof window.syncRejectLocalMutation === 'function' && window.syncRejectLocalMutation()) {
+        return false;
+    }
     try {
         // Registrar el historial de deshacer/rehacer
         if (!isRestoringHistory) {
@@ -175,9 +181,11 @@ window.saveTournamentData = function() {
         localStorage.setItem('ttmLastSavedAt', new Date().toISOString());
         // Sync multi-dispositivo: subir a Firebase si el host está activo
         if (typeof window.syncPush === 'function') window.syncPush();
+        return true;
     } catch (error) {
         console.error('Error al guardar datos:', error);
         showToast(t('Error al guardar datos. Espacio de almacenamiento lleno.'), 'error');
+        return false;
     }
 };
 

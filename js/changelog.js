@@ -3,7 +3,7 @@
 // ==========================================
 
 // Versión actual del sistema
-window.APP_VERSION = '2.30';
+window.APP_VERSION = '2.31';
 
 // Botón de versión del header sincronizado con APP_VERSION
 function syncVersionButton() {
@@ -23,6 +23,22 @@ if (document.readyState === 'loading') {
 
 // Historial de cambios (más reciente primero)
 const CHANGELOG = [
+    {
+        version: '2.31',
+        date: '2026-09-15',
+        title: 'Acceso seguro, roles por correo y sincronización robusta',
+        changes: [
+            '🔐 Firebase Authentication 12.19: registro e inicio de sesión con correo y contraseña, verificación de correo, cierre de sesión y recuperación de contraseña.',
+            '👥 Roles por torneo: anfitrión, operador y espectador, con permisos aplicados por Firebase Realtime Database Rules.',
+            '✉️ Invitaciones personales por correo: enlace de acceso, vencimiento a los 7 días, reclamo único y revocación por el anfitrión.',
+            '🔄 Sincronización robusta: presencia, reconexión automática, cierre remoto de sala, cambio de rol en vivo y limpieza correcta de listeners.',
+            '🛡️ Modo espectador protegido: bloquea la persistencia de cambios locales y restaura el último estado recibido.',
+            '♿ Corrección de accesibilidad: los avisos toast ya no quedan invisibles con movimiento reducido.',
+            '⚡ Corrección PWA: un recurso faltante sin conexión ya no recibe index.html con un tipo de contenido incorrecto.',
+            '📦 Carga inicial optimizada: se retiraron dos imágenes Base64 redundantes y el HTML bajó aproximadamente 370 KB.',
+            '🧪 Tests: 319 pruebas automatizadas, incluidas reglas y contratos de seguridad Firebase.'
+        ]
+    },
     {
         version: '2.30',
         date: '2026-08-17',
@@ -796,4 +812,3 @@ function buildSystemGuideHTML() {
 window.showSystemGuide = function() {
     showModal('🧭 Guía del Sistema', buildSystemGuideHTML(), null);
 };
-

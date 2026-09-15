@@ -5,17 +5,20 @@
 // IMPORTANTE: al cambiar cualquier archivo del app, subir la versión
 // de CACHE_NAME para que los clientes descarguen la actualización.
 
-const CACHE_NAME = 'ttm-cache-v61';
+const CACHE_NAME = 'ttm-cache-v62';
 
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.json',
   './css/styles.css',
+  './js/firebase-config.js',
+  './js/firebase.js',
   './js/i18n.js',
   './js/main.js',
   './js/storage.js',
   './js/ui.js',
+  './js/auth.js',
   './js/navigation.js',
   './js/logs.js',
   './js/sponsors.js',
@@ -112,7 +115,10 @@ self.addEventListener('fetch', event => {
           caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
         }
         return response;
-      }).catch(() => caches.match('./index.html'));
+      }).catch(() => new Response('Recurso no disponible sin conexion', {
+        status: 503,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+      }));
     })
   );
 });

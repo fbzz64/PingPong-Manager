@@ -24,7 +24,7 @@ suite('SYNC (sincronización multi-dispositivo)', () => {
         S.showToast = (m) => { toastMsg = m; };
         const result = S.syncCreateRoom();
         assertEqual(result, null, 'retorna null');
-        assert(toastMsg && /no configurada/i.test(toastMsg), 'muestra warning de config');
+        assert(toastMsg && /no configurad/i.test(toastMsg), 'muestra warning de config');
     });
 
     test('syncJoinRoom: código inválido avisa', () => {
@@ -66,5 +66,13 @@ suite('SYNC (sincronización multi-dispositivo)', () => {
         S.syncReconnect();  // noop, no debe fallar
         const st = S.syncGetStatus();
         assertEqual(st.active, false, 'sigue desconectado');
+    });
+
+    test('syncCanEdit: el modo local permite editar', () => {
+        assertEqual(S.syncCanEdit(), true, 'edicion local habilitada');
+    });
+
+    test('syncAutoReconnect: sin Firebase configurado no intenta conectar', () => {
+        assertEqual(S.syncAutoReconnect(), false, 'no reconecta sin config');
     });
 });

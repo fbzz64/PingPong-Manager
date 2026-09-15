@@ -28,6 +28,7 @@ require('./tests/sounds.test.js');
 require('./tests/qr.test.js');
 require('./tests/tvboard.test.js');
 require('./tests/sync.test.js');
+require('./tests/security.test.js');
 require('./tests/consistency.test.js');
 require('./tests/version.test.js');
 require('./tests/i18n.test.js');
