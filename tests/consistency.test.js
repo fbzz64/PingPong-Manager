@@ -13,6 +13,7 @@ const HTML_PATH = path.join(ROOT, 'index.html');
 const html = fs.readFileSync(HTML_PATH, 'utf8');
 
 const JS_FILES = [
+    'firebase-config.js', 'firebase.js', 'auth.js',
     'navigation.js', 'main.js', 'ui.js', 'storage.js', 'fixtures.js',
     'brackets.js', 'stats.js', 'tournaments.js', 'players.js', 'planning.js',
     'sponsors.js', 'logs.js', 'certificates.js', 'changelog.js', 'ranking.js',
@@ -52,7 +53,7 @@ suite('CONSISTENCIA HTML/JS', () => {
             'btn-undo', 'btn-redo', 'modal-overlay', 'modal-title',
             'modal-content', 'modal-confirm', 'theme-toggle-btn',
             'shortcuts-panel', 'toast-container', 'fixture-output',
-            'new-player-name', 'logs-output'
+            'new-player-name', 'logs-output', 'auth-controls', 'sync-role-badge'
         ];
         const missing = critical.filter(id => !ids.has(id));
         assertEqual(missing, [], 'faltan ids críticos: ' + missing.join(', '));

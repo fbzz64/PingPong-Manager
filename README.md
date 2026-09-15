@@ -4,10 +4,10 @@
 
 ### Gestión integral de torneos de ping pong
 
-**PWA offline · 100% en el navegador · Sin servidor**
+**PWA offline · 100% en el navegador · Backend Firebase opcional**
 
-[![Version](https://img.shields.io/badge/version-2.28-blue.svg)](https://github.com/fbzz64/PingPong-Manager)
-[![Tests](https://img.shields.io/badge/tests-313%20✅-brightgreen.svg)](#tests)
+[![Version](https://img.shields.io/badge/version-2.31-blue.svg)](https://github.com/fbzz64/PingPong-Manager)
+[![Tests](https://img.shields.io/badge/tests-319%20✅-brightgreen.svg)](#tests)
 [![License](https://img.shields.io/badge/license-MIT-gray.svg)](LICENSE)
 [![PWA](https://img.shields.io/badge/PWA-ready-purple.svg)](manifest.json)
 [![Offline](https://img.shields.io/badge/offline-100%25-orange.svg)](#stack)
@@ -170,6 +170,8 @@
 | **Navegación** | `js/navigation.js` | Pestañas, atajos de teclado, menú desplegable, shortcuts por categoría |
 | **Interfaz** | `js/ui.js` | Modal, toast, tema oscuro tri-state (auto/light/dark), animaciones |
 | **i18n** | `js/i18n.js` | Diccionarios completos ES/EN/PT, traducción en vivo, detección de idioma del navegador |
+| **Firebase** | `js/firebase.js` | Carga diferida del SDK, configuración central y tolerancia offline |
+| **Autenticación** | `js/auth.js` | Login, registro, verificación de correo y recuperación de contraseña |
 
 ### 👥 Jugadores
 
@@ -188,7 +190,7 @@
 | **Scoreboard** | `js/scoreboard.js` | Pantalla en vivo para proyección, auto-refresh 3s |
 | **Mesas** | `js/tables.js` | Vista por mesa en vivo, estados (EN CURSO / FINALIZADO / PENDIENTE) |
 | **Cartelera TV** | `js/tvboard.js` | Full-screen con todos los grupos, reloj en header, refresh 3s |
-| **Sincronización** | `js/sync.js` | Firebase RTDB, host/viewer, room codes, auto-reconnect |
+| **Sincronización** | `js/sync.js` | Firebase RTDB, roles, invitaciones por correo, presencia y reconexión |
 
 ### 📊 Análisis
 
@@ -318,16 +320,17 @@ Compartí el torneo en tiempo real entre dispositivos usando Firebase Realtime D
 
 | Rol | Descripción |
 |-----|-------------|
-| 📤 **Host** | Crea la sala, edita el torneo, es la fuente de verdad |
-| 📥 **Viewer** | Se une con un código de 6 caracteres, solo lectura |
+| 👑 **Anfitrión** | Crea la sala, edita el torneo, administra permisos y puede cerrarla |
+| 🧑‍💻 **Operador** | Edita jugadores, fixtures y resultados en tiempo real |
+| 👁️ **Espectador** | Consulta el torneo en vivo sin permiso de escritura |
 
 **Cómo funciona:**
-1. Un dispositivo crea la sala → recibe un código de 6 caracteres
-2. Los demás dispositivos se unen con ese código
-3. Los cambios del host se reflejan al instante en todos los viewers
-4. Ideal para proyectar en una TV mientras se edita desde la notebook
+1. El organizador crea y verifica su cuenta, luego crea una sala de 6 caracteres
+2. Invita por correo a operadores o espectadores mediante un enlace personal
+3. Cada destinatario entra con el correo autorizado y reclama una sola vez su permiso
+4. Los cambios se reflejan al instante y los dispositivos se reconectan automáticamente
 
-**Requiere:** Proyecto Firebase con Realtime Database habilitado. Configurar `FBASE_CONFIG` en `js/sync.js`.
+**Requiere:** Firebase Authentication y Realtime Database con las reglas cerradas del repositorio. Consulta [FIREBASE_SETUP.md](FIREBASE_SETUP.md).
 
 ---
 
@@ -337,7 +340,7 @@ Compartí el torneo en tiempo real entre dispositivos usando Firebase Realtime D
 node run-tests.js
 ```
 
-**313 tests automatizados** que cubren:
+**319 tests automatizados** que cubren:
 
 | Suite | Tests | Qué valida |
 |-------|-------|------------|
@@ -358,7 +361,8 @@ node run-tests.js
 | `sounds.test.js` | 7 | Sonidos, wake lock, horarios |
 | `qr.test.js` | 3 | Acreditación QR |
 | `tvboard.test.js` | 4 | Cartelera TV, cronómetro |
-| `sync.test.js` | 8 | Sincronización, room codes, push |
+| `sync.test.js` | 10 | Sincronización, roles, reconexión y modo local |
+| `security.test.js` | 4 | Configuración y reglas de seguridad Firebase |
 | `i18n.test.js` | 2 | Claves EN/PT completas, sin duplicados |
 | `consistency.test.js` | 5 | HTML/JS consistente, archivos existentes |
 | `e2e.test.js` | 8 | Flujo completo: jugadores → fixture → stats → llaves |
@@ -397,14 +401,15 @@ node run-tests.js
 - 📱 QRCode.js (códigos QR)
 
 **Sync (opcional)**
-- 🔥 Firebase Realtime Database v9 compat
-- 📡 CDN dinámico (no falla offline)
+- 🔥 Firebase Auth + Realtime Database v12.19 compat
+- 🔐 Roles por torneo y reglas de mínimo privilegio
+- 📡 SDK con carga diferida (no bloquea el modo offline)
 
 </td>
 </tr>
 </table>
 
-**Sin frameworks. Sin build tools. Sin Node modules.** Todo corre en el navegador.
+**Sin frameworks y sin build obligatorio.** La aplicación de producción corre en el navegador; Node se usa solo para las pruebas.
 
 ---
 
@@ -415,7 +420,10 @@ PingPong-Manager/
 │
 ├── index.html              # 🏠 Punto de entrada (PWA)
 ├── manifest.json           # 📱 PWA manifest
-├── sw.js                   # ⚡ Service Worker (cache v59)
+├── sw.js                   # ⚡ Service Worker (cache v62)
+├── firebase.json           # 🔥 Configuración de reglas RTDB
+├── database.rules.json     # 🔐 Autorización por rol y correo
+├── FIREBASE_SETUP.md       # 📘 Guía de configuración segura
 ├── package.json            # 📦 Metadata del proyecto
 ├── run-tests.js            # 🧪 Runner de tests
 ├── LICENSE                 # 📄 Licencia MIT
@@ -448,7 +456,10 @@ PingPong-Manager/
 │   ├── share.js            #    Compartir / copiar
 │   ├── sponsors.js         #    Patrocinadores
 │   ├── qr.js               #    Códigos QR
-│   ├── sync.js             #    Sync multi-dispositivo
+│   ├── firebase-config.js  #    Configuración web del proyecto
+│   ├── firebase.js         #    Carga e inicialización Firebase
+│   ├── auth.js             #    Login y verificación de correo
+│   ├── sync.js             #    Sync, roles, invitaciones y presencia
 │   └── changelog.js        #    Versión y changelog
 │
 ├── lib/                    # 📚 Librerías offline
@@ -462,7 +473,7 @@ PingPong-Manager/
 │   ├── icon-192.png
 │   └── icon-512.png
 │
-├── tests/                  # 🧪 313 tests
+├── tests/                  # 🧪 319 tests
 │   ├── runner.js           #    Motor de tests
 │   ├── env.js              #    Entorno de prueba
 │   ├── *.test.js           #    Suites por módulo
@@ -488,31 +499,17 @@ PingPong-Manager/
 
 - Cualquier navegador moderno (Chrome, Edge, Firefox, Safari)
 - No necesita servidor — abre directamente el `index.html`
-- Para sync multi-dispositivo: cuenta de Firebase con Realtime Database
+- Para sync multi-dispositivo: Firebase Authentication y Realtime Database
 
 ### Sincronización (opcional)
 
-1. Creá un proyecto en [Firebase Console](https://console.firebase.google.com)
-2. Habilitá **Realtime Database** (modo de prueba)
-3. Copiá la config de tu proyecto
-4. Reemplazá los valores en `js/sync.js:24-32`:
-   ```js
-   const FBASE_CONFIG = {
-       apiKey:            'TU_API_KEY',
-       authDomain:        'TU_PROYECTO.firebaseapp.com',
-       databaseURL:       'https://TU_PROYECTO-default-rtdb.firebaseio.com',
-       projectId:         'TU_PROYECTO',
-       storageBucket:     'TU_PROYECTO.appspot.com',
-       messagingSenderId: 'TU_SENDER_ID',
-       appId:             'TU_APP_ID'
-   };
-   ```
+Sigue la guía completa [FIREBASE_SETUP.md](FIREBASE_SETUP.md). En resumen: habilita correo/contraseña, crea Realtime Database en modo bloqueado, publica `database.rules.json` y copia el objeto web a `js/firebase-config.js`.
 
 ### Ejecutar tests
 
 ```bash
 node run-tests.js
-# Total: 313 pasaron, 0 fallaron
+# Total: 319 pasaron, 0 fallaron
 ```
 
 ---
@@ -569,7 +566,7 @@ node run-tests.js
 
 ## 🗺️ Roadmap
 
-- [ ] 🔥 Firebase sync completa (una vez configurado el proyecto)
+- [x] 🔥 Firebase Auth y sincronización segura con roles
 - [ ] 📊 Dashboard de administración con métricas de múltiples torneos
 - [ ] 🏆 Liga con calendario y fase regular
 - [ ] 📱 Notificaciones push para recordatorios

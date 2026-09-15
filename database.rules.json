@@ -1,0 +1,40 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "torneos": {
+      "$roomId": {
+        ".read": "auth != null && auth.token.email_verified == true && data.child('members').child(auth.uid).exists()",
+        ".write": "auth != null && auth.token.email_verified == true && !data.exists() && newData.child('meta').child('ownerUid').val() == auth.uid && newData.child('members').child(auth.uid).child('email').val() == auth.token.email && newData.child('members').child(auth.uid).child('role').val() == 'owner'",
+        "meta": {
+          ".write": "auth != null && auth.token.email_verified == true && root.child('torneos').child($roomId).child('members').child(auth.uid).child('role').val() == 'owner'",
+          ".validate": "newData.hasChildren(['name', 'createdAt', 'ownerUid', 'active', 'schemaVersion']) && newData.child('name').isString() && newData.child('name').val().length <= 160 && newData.child('ownerUid').isString() && newData.child('active').isBoolean() && newData.child('schemaVersion').isNumber()"
+        },
+        "data": {
+          ".write": "auth != null && auth.token.email_verified == true && (root.child('torneos').child($roomId).child('members').child(auth.uid).child('role').val() == 'owner' || root.child('torneos').child($roomId).child('members').child(auth.uid).child('role').val() == 'operator')",
+          ".validate": "newData.hasChild('settings') && newData.child('settings').hasChild('torneoNombre') && newData.child('settings').child('torneoNombre').isString()"
+        },
+        "members": {
+          "$uid": {
+            ".write": "auth != null && auth.token.email_verified == true && ((root.child('torneos').child($roomId).child('members').child(auth.uid).child('role').val() == 'owner' && ($uid != root.child('torneos').child($roomId).child('meta').child('ownerUid').val() || (newData.exists() && newData.child('role').val() == 'owner'))) || ($uid == auth.uid && !data.exists() && newData.child('email').val() == auth.token.email && newData.child('inviteToken').isString() && root.child('torneos').child($roomId).child('invites').child(newData.child('inviteToken').val()).child('email').val() == auth.token.email && root.child('torneos').child($roomId).child('invites').child(newData.child('inviteToken').val()).child('role').val() == newData.child('role').val() && root.child('torneos').child($roomId).child('invites').child(newData.child('inviteToken').val()).child('status').val() == 'pending' && root.child('torneos').child($roomId).child('invites').child(newData.child('inviteToken').val()).child('expiresAt').val() > now))",
+            ".validate": "!newData.exists() || (newData.hasChildren(['email', 'role', 'joinedAt']) && newData.child('email').isString() && newData.child('email').val().length <= 254 && (newData.child('role').val() == 'owner' || newData.child('role').val() == 'operator' || newData.child('role').val() == 'viewer'))"
+          }
+        },
+        "invites": {
+          "$token": {
+            ".read": "auth != null && auth.token.email_verified == true && data.child('email').val() == auth.token.email",
+            ".write": "auth != null && auth.token.email_verified == true && (root.child('torneos').child($roomId).child('members').child(auth.uid).child('role').val() == 'owner' || (data.child('email').val() == auth.token.email && data.child('status').val() == 'pending' && data.child('expiresAt').val() > now && newData.child('email').val() == data.child('email').val() && newData.child('role').val() == data.child('role').val() && newData.child('createdBy').val() == data.child('createdBy').val() && newData.child('createdAt').val() == data.child('createdAt').val() && newData.child('expiresAt').val() == data.child('expiresAt').val() && newData.child('status').val() == 'claimed' && newData.child('claimedBy').val() == auth.uid))",
+            ".validate": "!newData.exists() || (newData.hasChildren(['email', 'role', 'status', 'createdBy', 'createdAt', 'expiresAt']) && newData.child('email').isString() && newData.child('email').val().length <= 254 && (newData.child('role').val() == 'operator' || newData.child('role').val() == 'viewer') && (newData.child('status').val() == 'pending' || (newData.child('status').val() == 'claimed' && newData.child('claimedBy').isString())) && newData.child('createdBy').isString() && newData.child('expiresAt').isNumber())"
+          }
+        },
+        "presence": {
+          ".read": "auth != null && auth.token.email_verified == true && root.child('torneos').child($roomId).child('members').child(auth.uid).exists()",
+          "$uid": {
+            ".write": "auth != null && auth.token.email_verified == true && (($uid == auth.uid && root.child('torneos').child($roomId).child('members').child(auth.uid).exists()) || (!newData.exists() && root.child('torneos').child($roomId).child('members').child(auth.uid).child('role').val() == 'owner'))",
+            ".validate": "!newData.exists() || (newData.hasChildren(['email', 'role', 'connectedAt']) && newData.child('email').val() == auth.token.email && newData.child('role').val() == root.child('torneos').child($roomId).child('members').child(auth.uid).child('role').val())"
+          }
+        }
+      }
+    }
+  }
+}

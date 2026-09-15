@@ -19,7 +19,7 @@ const { createEnv, loadInto } = require('./env');
 
 // Mismo orden que los <script src> de index.html (sin las libs de terceros)
 const MODULE_ORDER = [
-    'js/i18n.js', 'js/main.js', 'js/storage.js', 'js/ui.js', 'js/navigation.js', 'js/logs.js',
+    'js/firebase-config.js', 'js/firebase.js', 'js/i18n.js', 'js/main.js', 'js/storage.js', 'js/ui.js', 'js/auth.js', 'js/navigation.js', 'js/logs.js',
     'js/sponsors.js', 'js/players.js', 'js/elo.js', 'js/reglamento.js', 'js/fixtures.js',
     'js/brackets.js', 'js/stats.js', 'js/charts.js', 'js/ranking.js', 'js/tournaments.js',
     'js/certificates.js', 'js/planning.js', 'js/scoreboard.js', 'js/sounds.js', 'js/qr.js', 'js/tables.js', 'js/tvboard.js', 'js/sync.js',
