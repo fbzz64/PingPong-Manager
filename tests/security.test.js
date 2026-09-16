@@ -9,6 +9,9 @@ const { createEnv, loadInto } = require('./env');
 
 const ROOT = path.resolve(__dirname, '..');
 const rules = JSON.parse(fs.readFileSync(path.join(ROOT, 'database.rules.json'), 'utf8')).rules;
+const authSource = fs.readFileSync(path.join(ROOT, 'js/auth.js'), 'utf8');
+const syncSource = fs.readFileSync(path.join(ROOT, 'js/sync.js'), 'utf8');
+const swSource = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
 
 suite('SEGURIDAD FIREBASE', () => {
     test('la raiz niega lectura y escritura por defecto', () => {
@@ -39,5 +42,36 @@ suite('SEGURIDAD FIREBASE', () => {
         loadInto(env, 'js/firebase.js');
         assertEqual(env.sandbox.PingPongFirebase.isConfigured(), false, 'marcadores detectados');
     });
-});
 
+    test('Firebase exige authDomain y una configuracion completa', () => {
+        const env = createEnv({
+            PINGPONG_FIREBASE_CONFIG: {
+                apiKey: 'publica',
+                projectId: 'pingpong-test',
+                appId: '1:123:web:abc',
+                databaseURL: 'https://pingpong-test.firebaseio.com'
+            }
+        });
+        loadInto(env, 'js/firebase.js');
+        assertEqual(env.sandbox.PingPongFirebase.isConfigured(), false, 'sin authDomain no inicia');
+    });
+
+    test('al verificar el correo se renueva el token usado por las Rules', () => {
+        assert(/getIdToken\(true\)/.test(authSource), 'fuerza la renovacion del ID token');
+        assert(/trim\(\)\.toLowerCase\(\)/.test(authSource), 'normaliza correos para invitaciones');
+    });
+
+    test('un reclamo de invitacion fallido no se ejecuta dos veces', () => {
+        const memberFlow = syncSource.slice(
+            syncSource.indexOf('function findOrClaimMember'),
+            syncSource.indexOf('function joinRoomAsync')
+        );
+        assert(/PERMISSION_DENIED/.test(memberFlow), 'solo reclama ante lectura denegada del miembro');
+        assert(!/\.catch\s*\(/.test(memberFlow), 'no captura y reintenta errores del propio reclamo');
+    });
+
+    test('la PWA actualiza firebase-config con prioridad de red', () => {
+        assert(/firebase-config\.js/.test(swSource), 'config incluida en el service worker');
+        assert(/pathname\.endsWith\('\/js\/firebase-config\.js'\)[\s\S]*fetch\(request\)[\s\S]*caches\.match\(request\)/.test(swSource), 'network-first con fallback local');
+    });
+});
