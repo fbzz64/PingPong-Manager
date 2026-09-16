@@ -5,7 +5,7 @@
 // IMPORTANTE: al cambiar cualquier archivo del app, subir la versión
 // de CACHE_NAME para que los clientes descarguen la actualización.
 
-const CACHE_NAME = 'ttm-cache-v62';
+const CACHE_NAME = 'ttm-cache-v63';
 
 const APP_SHELL = [
   './',
@@ -84,6 +84,24 @@ self.addEventListener('fetch', event => {
           return response;
         })
         .catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
+
+  // La configuracion publica de Firebase puede cambiar entre despliegues.
+  // Consultarla primero en red evita que una PWA instalada siga apuntando a
+  // un proyecto anterior; si no hay conexion se conserva la copia local.
+  if (url.origin === self.location.origin && url.pathname.endsWith('/js/firebase-config.js')) {
+    event.respondWith(
+      fetch(request)
+        .then(response => {
+          if (response && response.status === 200) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+          }
+          return response;
+        })
+        .catch(() => caches.match(request))
     );
     return;
   }
