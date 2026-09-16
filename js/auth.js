@@ -101,7 +101,10 @@
     }
 
     function requireFields(email, password) {
-        const normalizedEmail = String(email || '').trim();
+        // Firebase trata el correo como identificador sin distincion de
+        // mayusculas. Normalizarlo tambien mantiene compatibles las
+        // invitaciones, que las Rules comparan contra auth.token.email.
+        const normalizedEmail = String(email || '').trim().toLowerCase();
         if (!normalizedEmail || normalizedEmail.indexOf('@') < 1) {
             showToast('Ingresa un correo electronico valido.', 'warning');
             return null;
@@ -278,6 +281,12 @@
         if (!authState.user) return;
         authState.user.reload().then(function() {
             authState.user = authService.currentUser;
+            if (!authState.user) throw new Error('AUTH_SESSION_EXPIRED');
+            // emailVerified se refleja en el perfil antes que en el token.
+            // Las reglas consultan auth.token.email_verified, por eso se
+            // fuerza su renovacion antes de habilitar la sincronizacion.
+            return authState.user.getIdToken(true);
+        }).then(function() {
             authState.verified = Boolean(authState.user && authState.user.emailVerified);
             emitAuthChange();
             closeModal();
@@ -312,4 +321,3 @@
         initAuth();
     }
 })();
-
