@@ -348,8 +348,13 @@
         return memberRef.once('value').then(function(snapshot) {
             if (snapshot.exists()) return snapshot.val();
             return claimInvitation(roomId, token, user);
-        }).catch(function(error) {
-            if (token) return claimInvitation(roomId, token, user);
+        }, function(error) {
+            // Un invitado aun no es miembro y no puede leer /members. En ese
+            // caso se valida su token. No capturar errores de claimInvitation
+            // aqui: hacerlo repetia dos veces un reclamo invalido o vencido.
+            if (token && error && error.code === 'PERMISSION_DENIED') {
+                return claimInvitation(roomId, token, user);
+            }
             throw error;
         });
     }
@@ -543,9 +548,22 @@
         const room = params && String(params.get('room') || '').toUpperCase();
         const invite = params && params.get('invite');
         if (ROOM_CODE_RE.test(room)) {
+            let reconnectSaved = false;
             try {
                 localStorage.setItem(SYNC_ROOM_KEY, JSON.stringify({ roomId: room, inviteToken: invite || null }));
+                reconnectSaved = true;
             } catch (e) {}
+            // El token ya quedo guardado localmente. Retirarlo de la barra de
+            // direcciones evita que se copie por accidente o quede expuesto
+            // en el historial, conservando cualquier otro parametro.
+            if (reconnectSaved && window.history && typeof window.history.replaceState === 'function' && window.location.href) {
+                try {
+                    const cleanUrl = new URL(window.location.href);
+                    cleanUrl.searchParams.delete('room');
+                    cleanUrl.searchParams.delete('invite');
+                    window.history.replaceState(null, document.title, cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
+                } catch (e) {}
+            }
         }
         return window.syncReconnect();
     };
