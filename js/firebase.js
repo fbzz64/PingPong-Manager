@@ -26,10 +26,12 @@
         const config = getConfig();
         return Boolean(
             config.apiKey &&
+            config.authDomain &&
             config.projectId &&
             config.appId &&
             config.databaseURL &&
             config.apiKey !== 'TU_API_KEY' &&
+            config.authDomain.indexOf('TU_PROYECTO') === -1 &&
             config.projectId !== 'TU_PROYECTO' &&
             config.databaseURL.indexOf('TU_PROYECTO') === -1
         );
