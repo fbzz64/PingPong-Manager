@@ -7,7 +7,7 @@
 **PWA offline · 100% en el navegador · Backend Firebase opcional**
 
 [![Version](https://img.shields.io/badge/version-2.31-blue.svg)](https://github.com/fbzz64/PingPong-Manager)
-[![Tests](https://img.shields.io/badge/tests-319%20✅-brightgreen.svg)](#tests)
+[![Tests](https://img.shields.io/badge/tests-323%20✅-brightgreen.svg)](#tests)
 [![License](https://img.shields.io/badge/license-MIT-gray.svg)](LICENSE)
 [![PWA](https://img.shields.io/badge/PWA-ready-purple.svg)](manifest.json)
 [![Offline](https://img.shields.io/badge/offline-100%25-orange.svg)](#stack)
@@ -340,7 +340,7 @@ Compartí el torneo en tiempo real entre dispositivos usando Firebase Realtime D
 node run-tests.js
 ```
 
-**319 tests automatizados** que cubren:
+**323 tests automatizados** que cubren:
 
 | Suite | Tests | Qué valida |
 |-------|-------|------------|
@@ -420,7 +420,7 @@ PingPong-Manager/
 │
 ├── index.html              # 🏠 Punto de entrada (PWA)
 ├── manifest.json           # 📱 PWA manifest
-├── sw.js                   # ⚡ Service Worker (cache v62)
+├── sw.js                   # ⚡ Service Worker (cache v63)
 ├── firebase.json           # 🔥 Configuración de reglas RTDB
 ├── database.rules.json     # 🔐 Autorización por rol y correo
 ├── FIREBASE_SETUP.md       # 📘 Guía de configuración segura
@@ -473,7 +473,7 @@ PingPong-Manager/
 │   ├── icon-192.png
 │   └── icon-512.png
 │
-├── tests/                  # 🧪 319 tests
+├── tests/                  # 🧪 323 tests
 │   ├── runner.js           #    Motor de tests
 │   ├── env.js              #    Entorno de prueba
 │   ├── *.test.js           #    Suites por módulo
@@ -509,7 +509,7 @@ Sigue la guía completa [FIREBASE_SETUP.md](FIREBASE_SETUP.md). En resumen: habi
 
 ```bash
 node run-tests.js
-# Total: 319 pasaron, 0 fallaron
+# Total: 323 pasaron, 0 fallaron
 ```
 
 ---
