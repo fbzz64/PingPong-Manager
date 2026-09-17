@@ -11,6 +11,16 @@ window.APP_LANGS = ['es', 'en', 'pt'];
 
 // Diccionario EN (clave = español, valor = inglés)
 const I18N_EN = {
+    // Simulador de flujo
+    '🧪 Simulación automática del torneo': '🧪 Automatic tournament simulation',
+    'Ejecuta un torneo virtual aislado de 8 participantes y verifica inscripción, zonas, resultados, clasificación, llaves y podio. No modifica el torneo real.': 'Runs an isolated virtual tournament with 8 participants and verifies registration, groups, results, qualification, brackets and podium. It does not modify the real tournament.',
+    '▶ Probar flujo completo': '▶ Test complete flow',
+    'Aún no se ejecutó ninguna prueba.': 'No test has been run yet.',
+    'Ejecutando diagnóstico...': 'Running diagnostics...',
+    '✅ Flujo completo correcto': '✅ Complete flow passed',
+    '❌ Se encontraron fallas': '❌ Failures found',
+    'Prueba automática del torneo': 'Automatic tournament test',
+    'No se modificaron los datos del torneo real.': 'The real tournament data was not modified.',
     // Header
     'Gestión completa de fixtures, estadísticas y llaves eliminatorias': 'Complete management of fixtures, stats and knockout brackets',
     'Ver bitácora de cambios': 'View change log',
@@ -932,6 +942,16 @@ const I18N_EN = {
 
 // Diccionario PT (clave = español, valor = portugués)
 const I18N_PT = {
+    // Simulador de fluxo
+    '🧪 Simulación automática del torneo': '🧪 Simulação automática do torneio',
+    'Ejecuta un torneo virtual aislado de 8 participantes y verifica inscripción, zonas, resultados, clasificación, llaves y podio. No modifica el torneo real.': 'Executa um torneio virtual isolado com 8 participantes e verifica inscrição, grupos, resultados, classificação, chaves e pódio. Não modifica o torneio real.',
+    '▶ Probar flujo completo': '▶ Testar fluxo completo',
+    'Aún no se ejecutó ninguna prueba.': 'Nenhum teste foi executado ainda.',
+    'Ejecutando diagnóstico...': 'Executando diagnóstico...',
+    '✅ Flujo completo correcto': '✅ Fluxo completo aprovado',
+    '❌ Se encontraron fallas': '❌ Foram encontradas falhas',
+    'Prueba automática del torneo': 'Teste automático do torneio',
+    'No se modificaron los datos del torneo real.': 'Os dados do torneio real não foram modificados.',
     'Gestión completa de fixtures, estadísticas y llaves eliminatorias': 'Gestão completa de fixtures, estatísticas e chaves eliminatórias',
     'Ver bitácora de cambios': 'Ver registro de mudanças',
     'Guía del sistema: funciones y flujo del administrador': 'Guia do sistema: funções e fluxo do administrador',

@@ -5,7 +5,7 @@
 // IMPORTANTE: al cambiar cualquier archivo del app, subir la versión
 // de CACHE_NAME para que los clientes descarguen la actualización.
 
-const CACHE_NAME = 'ttm-cache-v63';
+const CACHE_NAME = 'ttm-cache-v64';
 
 const APP_SHELL = [
   './',
@@ -37,6 +37,7 @@ const APP_SHELL = [
   './js/sounds.js',
   './js/tables.js',
   './js/tvboard.js',
+  './js/flow-test.js',
   './js/changelog.js',
   './js/sync.js',
   './js/share.js',
