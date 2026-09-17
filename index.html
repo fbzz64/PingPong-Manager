@@ -713,6 +713,19 @@
         </div>
     </div>
 
+    <div class="form-section" id="flow-test-section">
+        <h3 data-i18n="🧪 Simulación automática del torneo">🧪 Simulación automática del torneo</h3>
+        <div class="info-box" style="margin-bottom: 15px;">
+            <p class="info-text" data-i18n="Ejecuta un torneo virtual aislado de 8 participantes y verifica inscripción, zonas, resultados, clasificación, llaves y podio. No modifica el torneo real.">
+                <strong>Diagnóstico seguro:</strong> Ejecuta un torneo virtual aislado de 8 participantes y verifica inscripción, zonas, resultados, clasificación, llaves y podio. No modifica el torneo real.
+            </p>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <button class="btn btn-primary" id="btn-run-flow-test" onclick="runAutomaticTournamentFlowTest()" data-i18n="▶ Probar flujo completo">▶ Probar flujo completo</button>
+            <span id="flow-test-last-run" style="font-size:13px;color:var(--text-muted);" data-i18n="Aún no se ejecutó ninguna prueba.">Aún no se ejecutó ninguna prueba.</span>
+        </div>
+    </div>
+
     <div class="form-section">
         <h3 data-i18n="📁 Plantillas de Formato">📁 Plantillas de Formato</h3>
         <div class="info-box" style="margin-bottom: 15px;">
@@ -1147,6 +1160,7 @@
     <script src="js/qr.js"></script>
     <script src="js/tables.js"></script>
     <script src="js/tvboard.js"></script>
+    <script src="js/flow-test.js"></script>
     <script src="js/changelog.js"></script>
     <script src="js/sync.js"></script>
     <script src="js/share.js"></script>

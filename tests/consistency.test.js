@@ -18,7 +18,7 @@ const JS_FILES = [
     'brackets.js', 'stats.js', 'tournaments.js', 'players.js', 'planning.js',
     'sponsors.js', 'logs.js', 'certificates.js', 'changelog.js', 'ranking.js',
     'reglamento.js', 'elo.js', 'charts.js', 'scoreboard.js', 'qr.js', 'tables.js', 'tvboard.js', 'sync.js',
-    'i18n.js'
+    'i18n.js', 'flow-test.js'
 ];
 
 function htmlIds() {
